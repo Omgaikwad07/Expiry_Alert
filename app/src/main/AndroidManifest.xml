@@ -1,0 +1,56 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Camera Permission for Barcode Scanner -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Ensure Camera & Autofocus Features Are Required -->
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="true"/>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Expiry_Alert"
+        tools:targetApi="31">
+
+        <!-- SignupActivity should open first -->
+        <activity
+            android:name=".SighupActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Login Activity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"/>
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
+
+        <!-- Custom Barcode Scanner Activity -->
+        <activity
+            android:name=".MyCaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:exported="false"/>
+
+
+        <!-- Manual Entry Activity -->
+        <activity
+            android:name=".ManualEntryActivity"
+            android:exported="false"/>
+
+    </application>
+</manifest>

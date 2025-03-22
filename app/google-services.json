@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "600076793730",
+    "project_id": "expiry-alert-d9e77",
+    "storage_bucket": "expiry-alert-d9e77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600076793730:android:bea124a44883b32d66019b",
+        "android_client_info": {
+          "package_name": "com.example.expiry_alert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRC9DpHcb5RzpfPYPJtiiBjcB_tMpP4i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
