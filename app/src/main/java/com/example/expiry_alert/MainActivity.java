@@ -9,7 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import android.view.MenuItem;
-
+//Test commit
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
