@@ -2,73 +2,105 @@ package com.example.expiry_alert;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
-import androidx.annotation.Nullable;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyCaptureActivity extends AppCompatActivity {
 
     private DecoratedBarcodeView barcodeView;
-    private static final int REQUEST_MANUAL_ENTRY = 1; // Unique request code
+    private Button addDetailsButton;
+    private boolean isScanned = false; // Prevent multiple scans
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_scanner_layout);
 
-        // Initialize Scanner
         barcodeView = findViewById(R.id.barcode_scanner);
-        barcodeView.decodeContinuous(callback); // ✅ Start scanning immediately
+        addDetailsButton = findViewById(R.id.add_details_button);
 
-        // Initialize "Add Details Manually" Button
-        Button addDetailsButton = findViewById(R.id.add_details_button);
-        addDetailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open Manual Entry Activity
-                Intent intent = new Intent(MyCaptureActivity.this, ManualEntryActivity.class);
-                startActivityForResult(intent, REQUEST_MANUAL_ENTRY);
-            }
+        barcodeView.resume();  // ✅ Scanner starts immediately
+        barcodeView.decodeContinuous(callback);
+
+        // ✅ "Add Details Manually" button now correctly opens Manual Entry
+        addDetailsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MyCaptureActivity.this, ManualEntryActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
-    // Callback for barcode scanning
     private final BarcodeCallback callback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
-            if (result.getText() != null) {
-                barcodeView.pause(); // Pause scanner after scan
-                Intent intent = new Intent();
-                intent.putExtra("SCANNED_DATA", result.getText());
-                setResult(RESULT_OK, intent);
-                finish(); // Close scanner activity
+            if (!isScanned && result.getText() != null) {
+                isScanned = true;
+                barcodeView.pause(); // ✅ Stop scanning after success
+                fetchProductDetails(result.getText()); // ✅ Fetch product details via API
             }
         }
     };
 
+    private void fetchProductDetails(String barcode) {
+        String url = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONObject product = response.getJSONObject("product");
+                        String name = product.optString("product_name", "Unknown Product");
+                        String category = product.optJSONArray("categories_tags") != null ?
+                                product.getJSONArray("categories_tags").optString(0, "Uncategorized") : "Uncategorized";
+
+                        // ✅ Redirect to Manual Entry Page with product details
+                        Intent intent = new Intent(MyCaptureActivity.this, ManualEntryActivity.class);
+                        intent.putExtra("SCANNED_BARCODE", barcode);
+                        intent.putExtra("PRODUCT_NAME", name);
+                        intent.putExtra("PRODUCT_CATEGORY", category);
+                        startActivity(intent);
+                        finish();
+                    } catch (JSONException e) {
+                        Toast.makeText(MyCaptureActivity.this, "Product not found, enter manually.", Toast.LENGTH_SHORT).show();
+                        redirectToManualEntry(barcode);
+                    }
+                },
+                error -> {
+                    Toast.makeText(MyCaptureActivity.this, "API Error, enter manually.", Toast.LENGTH_SHORT).show();
+                    redirectToManualEntry(barcode);
+                });
+
+        queue.add(jsonObjectRequest);
+    }
+
+    private void redirectToManualEntry(String barcode) {
+        Intent intent = new Intent(MyCaptureActivity.this, ManualEntryActivity.class);
+        intent.putExtra("SCANNED_BARCODE", barcode);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        barcodeView.resume(); // ✅ Ensure scanner restarts after returning from manual entry
+        barcodeView.resume();
+        isScanned = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        barcodeView.pause(); // ✅ Pause scanner when switching screens
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // If returning from Manual Entry, restart the scanner
-        if (requestCode == REQUEST_MANUAL_ENTRY) {
-            barcodeView.resume();  // ✅ Ensure scanner is visible when returning
-        }
+        barcodeView.pause();
     }
 }

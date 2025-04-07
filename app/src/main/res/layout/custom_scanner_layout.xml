@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scannerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Scanner View -->
+    <!-- Camera Scanner Preview -->
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/barcode_scanner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:zxing_use_texture_view="true"/>
+        android:layout_height="match_parent" />
 
-    <!-- Add Details Manually Button -->
+    <!-- Button at bottom -->
     <Button
         android:id="@+id/add_details_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Details Manually"
-        android:backgroundTint="@color/lavender"
-        android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:padding="12dp"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="30dp" />
+
 </RelativeLayout>

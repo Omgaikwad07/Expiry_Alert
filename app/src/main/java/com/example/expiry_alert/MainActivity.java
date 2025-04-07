@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         options.setPrompt("Scan a barcode");
         options.setBeepEnabled(true);
         options.setOrientationLocked(true);
-        options.setCaptureActivity(MyCaptureActivity.class);  // ✅ Use custom capture activity
+        options.setCaptureActivity(ScannerActivity.class);  // ✅ Use custom capture activity
         barcodeLauncher.launch(options);
     }
 
