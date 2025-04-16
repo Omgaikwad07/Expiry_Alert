@@ -1,18 +1,18 @@
 pluginManagement {
     repositories {
-        google()
+        google()  // This is where you define the repositories
         mavenCentral()
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google()  // This is where repositories are defined
         mavenCentral()
     }
 }
 
-rootProject.name = "Expiry_Alert"
+rootProject.name = "ExpiryAlert"
 include(":app")
- 

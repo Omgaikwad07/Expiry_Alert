@@ -1,6 +1,7 @@
 package com.example.expiry_alert;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +13,35 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     private Context context;
-    private List<Product> productList;
+    private List<ProductModel> productList;
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public ProductAdapter(Context context, List<ProductModel> productList) {
         this.context = context;
         this.productList = productList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
+    public ProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_product_card, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = productList.get(position);
-        holder.productName.setText(product.getName());  // <-- Make sure your Product.java has getName()
-        holder.productExpiry.setText("Expiry: " + product.getExpiryDate());
+    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
+        ProductModel product = productList.get(position);
+        holder.productName.setText(product.getName());
+        holder.brand.setText("Brand: " + product.getBrand());
+        holder.expiry.setText("Expires: " + product.getExpiryDate());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ManualEntryActivity.class);
+            intent.putExtra("productId", product.getProductId());
+            intent.putExtra("name", product.getName());
+            intent.putExtra("brand", product.getBrand());
+            intent.putExtra("expiryDate", product.getExpiryDate());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -38,13 +49,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return productList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView productName, productExpiry;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView productName, brand, expiry;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            productName = itemView.findViewById(R.id.product_name);
-            productExpiry = itemView.findViewById(R.id.product_expiry);
+            productName = itemView.findViewById(R.id.tvProductName);
+            brand = itemView.findViewById(R.id.tvBrand);
+            expiry = itemView.findViewById(R.id.tvExpiry);
         }
     }
 }
