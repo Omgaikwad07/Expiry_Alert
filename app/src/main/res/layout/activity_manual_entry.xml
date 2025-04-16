@@ -1,35 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="20dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/form_background">
 
-    <EditText
-        android:id="@+id/editProductName"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Product Name" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editBrandName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Brand Name"
-        android:layout_marginTop="10dp" />
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Product"
+            android:textSize="28sp"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:letterSpacing="0.03"/>
 
-    <EditText
-        android:id="@+id/editExpiryDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Expiry Date (YYYY-MM-DD)"
-        android:layout_marginTop="10dp" />
+        <!-- Product Name Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A5ACD"
+            app:hintTextColor="#6A5ACD"
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_marginTop="20dp" />
+            app:startIconTint="#6A5ACD">
 
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Name"
+                android:inputType="text"
+                android:padding="16dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Brand Name Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A5ACD"
+            app:hintTextColor="#6A5ACD"
+            app:startIconDrawable="@drawable/ic_store"
+            app:startIconTint="#6A5ACD">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editBrandName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Brand Name"
+                android:inputType="text"
+                android:padding="16dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Category Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A5ACD"
+            app:hintTextColor="#6A5ACD"
+            app:startIconDrawable="@drawable/ic_category"
+            app:startIconTint="#6A5ACD">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category"
+                android:inputType="text"
+                android:padding="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Expiry Date Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A5ACD"
+            app:hintTextColor="#6A5ACD"
+            app:startIconDrawable="@drawable/ic_calendar"
+            app:startIconTint="#6A5ACD"
+            app:endIconMode="custom"
+            app:endIconTint="#6A5ACD">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editExpiryDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Expiry Date (YYYY-MM-DD)"
+                android:inputType="text"
+                android:digits="0123456789/-"
+                android:padding="16dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="SAVE PRODUCT"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#6A5ACD"
+            app:elevation="6dp"
+            android:letterSpacing="0.05"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>
